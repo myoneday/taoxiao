@@ -131,7 +131,8 @@ public class WebSocketServer {
 			Date mtime = new Date();
 			try {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				mtime = sdf.parse(str);
+				if(str!=null)
+					mtime = sdf.parse(str);
 			}catch(ParseException e){
 				e.printStackTrace();
 			}
