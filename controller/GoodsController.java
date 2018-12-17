@@ -1,14 +1,12 @@
-package controller;
+package com.example.taoxiao;
 
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import entity.sellgoods;
-import mapper.GoodsMapper;
 
 //设置访问的接口的文件
 
@@ -21,31 +19,62 @@ public class GoodsController {
 		
 		@RequestMapping("/newgoods")
 		public String addgoods(String goodsname,String sellid, String kinds,double price, String description, Date uptime){
-			if(goodsm.insert(goodsname,sellid,kinds,price,description,uptime))
-				return "商品创建成功";
+			JSONObject result = new JSONObject();
+			if( goodsm.insert(goodsname,sellid,kinds,price,description,uptime))
+				result.put("status", "true");
 			else
-				return "商品创建失败";
+				result.put("status", "false");
+			return result.toJSONString();
 		}
 		@RequestMapping("/getgoodsINF")
-		public List<sellgoods> select2(String id){//根据商品ID查找商品
-			return goodsm.select2(id);
+		public String select2(String id){//根据商品ID查找商品
+			JSONObject result = new JSONObject();
+			List<sellgoods> str=goodsm.select2(id);
+			result.put("sreach",str);
+			return result.toJSONString();
+
 		}
 		@RequestMapping("/getgoodsINFBytype")//根据类型返回商品信息
-		public List<sellgoods> select3(String type){
-			return goodsm.select3(type);
+		public String select3(String type){
+
+			JSONObject result = new JSONObject();
+			List<sellgoods> str=goodsm.select3(type);
+			result.put("sreach",str);
+			return result.toJSONString();
 		}
 		@RequestMapping("/delete")//删除商品信息
 			public String delete(String id){
-				if(goodsm.delete(id))
-					return "删除成功";
-				else
-					return"删除失败";
+			JSONObject result = new JSONObject();
+			if( goodsm.delete(id))
+				result.put("status", "true");
+			else
+				result.put("status", "false");
+			return result.toJSONString();
 		}
 		@RequestMapping("/update")//更新商品信息
 				public String update(String goodsid,String goodsname,String sellid,String kinds,double price,String description,Date uptime){
-					if( goodsm.update(goodsid,goodsname,sellid,kinds,price,description,uptime))
-						return "更新成功";
-					else
-						return "更新失败";
+			JSONObject result = new JSONObject();
+			if( goodsm.update(goodsid,goodsname,sellid,kinds,price,description,uptime))
+				result.put("status", "true");
+			else
+				result.put("status", "false");
+			return result.toJSONString();
 		}
+		@RequestMapping("/Sreachsell")//搜索买卖的商品
+				public String Searchsell(String Text)
+		{
+			JSONObject result = new JSONObject();
+			List<sellgoods> str=goodsm.Searchsell(Text);
+			result.put("sreach",str);
+			return result.toJSONString();
+		}
+	@RequestMapping("/Sreachrent")//搜索租借的商品
+	public String Searchrent(String Text)
+	{
+		JSONObject result = new JSONObject();
+		List<rentgoods> str=goodsm.Searchrent(Text);
+		result.put("sreach",str);
+		return result.toJSONString();
+	}
+
 }
