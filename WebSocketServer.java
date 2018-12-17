@@ -115,7 +115,8 @@ public class WebSocketServer {
 			if(tmessage.select3(account,0)!=null) {
 				List<Message> unmessage = tmessage.select3(account,0);
 				for(int i=0; i<unmessage.size(); i++) {
-					SendMessage(session, unmessage.get(i).toString());
+					String amessage = setmessage(unmessage.get(i));
+					SendMessage(session, amessage);
 				}
 				tmessage.update(account, 1);
 			}
@@ -219,6 +220,19 @@ public class WebSocketServer {
 		else{
 			log.warn("没有找到你指定ID的会话：{}",sessionId);
 		}
+	}
+	public static String setmessage(Message mess) {
+		String function = mess.getFunction();
+		String sendaccount = mess.getSendaccount();
+		String receiveaccount=mess.getReceiveaccount();
+		String type=mess.getType();
+		String message=mess.getMessage();
+		Date mtime=mess.getMtime();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String str = sdf.format(mtime);
+		String all="{\"function\":\""+function+"\",\"sendaccount\":\""+sendaccount+"\",\"receiveaccount\":\""+receiveaccount
+                +"\",\"type\":\""+type+"\",\"message\":\""+message+"\",\"mtime\":\""+str+"\"}";
+		return all;
 	}
 }
 
