@@ -1,8 +1,12 @@
-package entity;
+package com.example.taoxiao.entity;
+
+import java.sql.Blob;
+
 public class user {
 	private String userid;
 	private String userpsw;
 	private String nickname;
+	private Blob headpicture;
 	private String college;
 	private String gradle;
 	private String tel;
@@ -24,6 +28,12 @@ public class user {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	public Blob getHeadpicture() {
+		return headpicture;
+	}
+	public void setHeadpicture(Blob headpicture) {
+		this.headpicture = headpicture;
 	}
 	public String getCollege() {
 		return college;
